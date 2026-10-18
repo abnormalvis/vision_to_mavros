@@ -11,6 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   tf
+  geometry_msgs
+  nav_msgs
   sensor_msgs
   cv_bridge
   std_msgs
@@ -146,6 +148,11 @@ target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
 )
 
+add_executable(openvins_to_mavros_node src/openvins_to_mavros.cpp)
+target_link_libraries(openvins_to_mavros_node
+  ${catkin_LIBRARIES}
+)
+
 add_executable(t265_fisheye_undistort_node src/t265_fisheye_undistort.cpp)
 target_link_libraries(t265_fisheye_undistort_node
   ${catkin_LIBRARIES} ${OpenCV_LIBRARIES}
@@ -166,7 +173,7 @@ target_link_libraries(t265_fisheye_undistort_node
 # )
 
 ## Mark executables and/or libraries for installation
-install(TARGETS ${PROJECT_NAME}_node
+install(TARGETS ${PROJECT_NAME}_node openvins_to_mavros_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

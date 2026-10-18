@@ -1,0 +1,12 @@
+<launch>
+    <arg name="openvins_pose_topic" default="/ov_msckf/poseimu" />
+    <arg name="mavros_pose_topic" default="/mavros/vision_pose/pose" />
+
+    <node pkg="vision_to_mavros"
+          type="openvins_to_mavros_node"
+          name="openvins_to_mavros"
+          output="screen">
+        <param name="input_topic" value="$(arg openvins_pose_topic)" />
+        <param name="output_topic" value="$(arg mavros_pose_topic)" />
+    </node>
+</launch>

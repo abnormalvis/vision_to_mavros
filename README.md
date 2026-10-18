@@ -17,6 +17,7 @@ Follow this wiki page: https://ardupilot.org/copter/docs/common-vio-tracking-cam
 ## ROS nodes:
 
 * **[`vision_to_mavros_node`](#vision_to_mavros_node)**: Transformation of `tf` pose data to NED frame for vision-related MAVROS topics. Full explaination and usage with Realsense T265 can be found [in this blog post](https://discuss.ardupilot.org/t/integration-of-ardupilot-and-vio-tracking-camera-part-2-complete-installation-and-indoor-non-gps-flights/43405) and [this one](https://discuss.ardupilot.org/t/indoor-non-gps-flight-using-apriltags-ros-based/42878) with [AprilTags](https://github.com/AprilRobotics/apriltag). 
+* **`openvins_to_mavros_node`**: forwards OpenVINS `nav_msgs/Odometry` pose output to the MAVROS vision pose topic.
 * **[`t265_fisheye_undistort_node`](#t265_fisheye_undistort_node)**: Undistorts and rectifies fisheye images from the Realsense T265 for other packages to consume. Full explaination and usage can be found [in this blog post](https://discuss.ardupilot.org/t/precision-landing-with-ros-realsense-t265-camera-and-apriltag-3-part-2-2/51493).
 
 ## non-ROS scripts:
@@ -27,6 +28,22 @@ Follow this wiki page: https://ardupilot.org/copter/docs/common-vio-tracking-cam
 
 --------------------------------------------------------------------------
 # ROS nodes
+
+## `openvins_to_mavros_node`
+
+OpenVINS commonly publishes the IMU pose on `/ov_msckf/poseimu` as `nav_msgs/Odometry`. Start MAVROS and OpenVINS first, then run:
+
+```
+roslaunch vision_to_mavros openvins_to_mavros.launch
+```
+
+For another OpenVINS output topic:
+
+```
+roslaunch vision_to_mavros openvins_to_mavros.launch openvins_pose_topic:=/your/openvins/odometry
+```
+
+The node copies the OpenVINS timestamp, frame ID, position, and orientation into `geometry_msgs/PoseStamped` and publishes `/mavros/vision_pose/pose`. OpenVINS must publish the pose in ROS ENU/FLU conventions; MAVROS performs the ENU-to-NED conversion for the flight controller. Do not apply the T265-specific `gamma_world` rotation to this node.
 
 ## `vision_to_mavros_node`
 
