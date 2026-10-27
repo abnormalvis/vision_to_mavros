@@ -10,7 +10,7 @@ public:
   {
     ros::NodeHandle private_node("~");
 
-    private_node.param<std::string>("input_topic", input_topic_, "/ov_msckf/poseimu");
+    private_node.param<std::string>("input_topic", input_topic_, "/ov_msckf/odomimu");
     private_node.param<std::string>("output_topic", output_topic_, "/mavros/vision_pose/pose");
 
     pose_publisher_ = node_.advertise<geometry_msgs::PoseStamped>(output_topic_, 10);

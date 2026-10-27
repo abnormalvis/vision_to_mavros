@@ -1,5 +1,5 @@
 <launch>
-    <arg name="openvins_pose_topic" default="/ov_msckf/poseimu" />
+    <arg name="openvins_pose_topic" default="/ov_msckf/odomimu" />
     <arg name="mavros_pose_topic" default="/mavros/vision_pose/pose" />
 
     <node pkg="vision_to_mavros"
